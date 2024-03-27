@@ -1,11 +1,30 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setCart } from '../store/sliceCart';
+import {setCartCounter} from '../store/sliceCartCounter'
 
 function ItemId() {
     const { id } = useParams();
     const url = `http://localhost:8080/api/items/${id}`;
     const [item, setItem] = useState({});
     const [count, setCount] = useState(1);
+    const dispatch = useDispatch();
+    const dispatchCounterCart = useDispatch();
+
+    const cutItem = {
+        id: item.id,
+        title: item.title,
+        size: '20',
+        price: item.price,
+        count
+    }
+
+    const clickHandler = () => {
+        dispatch(setCart(cutItem));
+        dispatchCounterCart(setCartCounter(count));
+    }
+
     React.useEffect(() => {
         fetch(url)
             .then((res) => res.json())
@@ -62,7 +81,7 @@ function ItemId() {
                         </span>
                         </p>
                     </div>
-                    <button className="btn btn-danger btn-block btn-lg">В корзину</button>
+                    <button className="btn btn-danger btn-block btn-lg" onClick={() => clickHandler(cutItem)}>В корзину</button>
                 </div>
             </div>
         </section>
