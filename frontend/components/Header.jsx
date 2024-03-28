@@ -36,7 +36,7 @@ function Header() {
                         <Link className="navbar-brand" to="/">
                             <img src='../img/header-logo.png' alt="Bosa Noga" />
                         </Link>
-                        <div className="collapse navbar-collapse" id="navbarMain">
+                        <div className="collapse navbar-collapse" id="navbarMain" style={{ justifyContent: 'space-between'}}>
                             <ul className="navbar-nav mr-auto">
                                 <li className="nav-item active">
                                     <NavLink className="nav-link" to="/">Главная</NavLink>

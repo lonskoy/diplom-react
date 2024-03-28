@@ -24,10 +24,9 @@ export default function Index() {
           <div className="row">
             <div className="col">
               <div className="banner">
-                <img src="../img/banner.jpg" className="img-fluid" alt="К весне готовы!" />
-                <h2 className="banner-header">К весне готовы!</h2>
+              <img src="../img/banner.jpg" className="img-fluid" alt="К весне готовы!" style={{width: '100%'}}/>
+               <h2 className="banner-header">К весне готовы!</h2>
               </div>
-
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/catalog" element={<Catalog showForm={isCatalogFormVisible} />} />

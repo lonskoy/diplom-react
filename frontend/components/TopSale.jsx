@@ -17,7 +17,7 @@ function TopSale() {
     
     return (
         <section className='top-sales'>
-        <h2 className="text-center">Хиты продаж! </h2>
+        <h2 className="text-center" style={{ margin: '30px 0' }}>Хиты продаж! </h2>
             <div className='row'>
                 {items.map(el => {
                     return (

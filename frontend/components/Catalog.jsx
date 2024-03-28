@@ -26,26 +26,26 @@ function Catalog({ showForm }) {
     const clickHandlerOffset = (event) => {
         const query = new URLSearchParams(); //Изучить
         query.append('offset', offset)
-        if(searchData.trim().length > 0) {
+        if (searchData.trim().length > 0) {
             query.append('q', searchData)
         }
         else {
             fetch(`http://localhost:8080/api/items?${query}`)
-            .then((res) => res.json())
-            .then((products) => {
-                if (products.length < 6) {
-                    setBtnAdd(true)
-                    console.log('Кнопка в блоке')
-                }
-                setOffset((prev) => prev + 6);
-                setItems((prev) => [...prev, ...products]);
-            }).catch((err) => console.log(err))
+                .then((res) => res.json())
+                .then((products) => {
+                    if (products.length < 6) {
+                        setBtnAdd(true)
+                        console.log('Кнопка в блоке')
+                    }
+                    setOffset((prev) => prev + 6);
+                    setItems((prev) => [...prev, ...products]);
+                }).catch((err) => console.log(err))
         }
     }
 
     const submitHandler = (event) => {
         event.preventDefault();
-        fetch(`http://localhost:8080/api/items?q=${search}&offset=${offset}`) 
+        fetch(`http://localhost:8080/api/items?q=${search}&offset=${offset}`)
             .then((res) => res.json())
             .then((products) => {
                 setItems(products)
@@ -59,7 +59,7 @@ function Catalog({ showForm }) {
 
     return (
         <section className="catalog">
-            <h2 className="text-center">Каталог</h2>
+            <h2 className="text-center" style={{ margin: '30px 0' }}>Каталог</h2>
 
             {showForm && (
                 <form className="catalog-search-form form-inline" data-id="search-form" onSubmit={submitHandler}>
@@ -77,10 +77,12 @@ function Catalog({ showForm }) {
                     return (
                         <div className='col-4' key={el.id}>
                             <div className="card catalog-item-card" key={el.id}>
-                                <img src={el.images[0]} className="card-img-top img-fluid" alt={el.title} />
+                                <div style={{ width: '100%', height: '500px', overflow: 'hidden' }}>
+                                    <img src={el.images[0]} className="card-img-top img-fluid" alt={el.title} />
+                                </div>
                                 <div className="card-body" >
                                     <p className="card-text">{el.title}</p>
-                                    <p className="card-text">{`${ el.price } руб.`}</p>
+                                    <p className="card-text">{`${el.price} руб.`}</p>
                                     <Link to={`/items/${el.id}`} className="btn btn-outline-primary">Заказать</Link>
                                 </div>
                             </div>
