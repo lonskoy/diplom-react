@@ -19,9 +19,10 @@ function CatalogCategory() {
   return (
     <ul className="catalog-categories nav justify-content-center">
       {items.map(el => {
+        const categoryId = el.id;
         return (
           <li className="nav-item" key={el.id}>
-            <NavLink className={el.isActive ? 'nav-link active' : 'nav-link'} to="#">{el.title}</NavLink>
+            <NavLink className={el.isActive ? 'nav-link active' : 'nav-link'} to={`items?${categoryId}`}>{el.title}</NavLink>
           </li>
         )
       })}

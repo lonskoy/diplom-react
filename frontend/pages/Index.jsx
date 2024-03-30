@@ -33,6 +33,7 @@ export default function Index() {
                 <Route path="/aboute" element={<Aboute />} />
                 <Route path="/contacts" element={<Contacts />} />
                 <Route path="/items/:id" element={<ItemId />} />
+                <Route path="/items/:categoryId" element={<Catalog showForm={isCatalogFormVisible} />} />
                 <Route path="/cart" element={<Cart />} />
               </Routes>
 

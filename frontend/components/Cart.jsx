@@ -1,10 +1,30 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { useState, useEffect} from 'react'
+import { useSelector, useDispatch } from 'react-redux';
+import { useState, useEffect } from 'react';
+import { minusCartCounter } from '../store/sliceCartCounter';
+import { minusCart } from '../store/sliceCart';
 
 function Cart() {
-    const item = useSelector(state => state.dataCart.value);
-    console.log(`В корзине: ${item}`);
+    const dispatchCountCart = useDispatch();
+    const dispatchCart = useDispatch();
+    const data = JSON.parse(JSON.stringify(useSelector(state => state.dataCart.data)));
+    const [items, setItems] = useState(data);
+
+    const [totalPrice, setTotalPrice] = useState(0); // Состояние для общей стоимости
+
+    const handleDelete = (id) => {
+        const updatedItems = items.filter(item => item.id !== id);
+        setItems(updatedItems);
+        dispatchCountCart(minusCartCounter()); // Уменьшаем глобальный счетчик возле иконки корзины
+    };
+
+    useEffect(() => {
+        // Вычисляем общую стоимость при изменении items
+        const total = items.reduce((acc, el) => acc + (el.price * el.count), 0);
+        setTotalPrice(total);
+        dispatchCart(minusCart(items)); // Обновляем глобальное хранилище с корзиной
+    }, [items]);
+
 
     return (
         <>
@@ -23,18 +43,23 @@ function Cart() {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            {/* <td scope="row">1</td>
-                            <td>{item.title}</td>
-                            <td>{item.size}</td>
-                            <td>{item.count}</td>
-                            <td>{item.price} руб.</td>
-                            <td>{item.price * item.count} руб.</td>
-                            <td><button className="btn btn-outline-danger btn-sm">Удалить</button></td> */}
-                        </tr>
+                        {items.map((el, index) => {
+                            return (
+                                <tr key={el.id}>
+                                    <td scope="row">{index + 1}</td>
+                                    <td>{el.title}</td>
+                                    <td>{el.size}</td>
+                                    <td>{el.count}</td>
+                                    <td>{el.price} руб.</td>
+                                    <td>{el.price * el.count} руб.</td>
+                                    <td><button className="btn btn-outline-danger btn-sm" onClick={() => handleDelete(el.id)}>Удалить</button></td>
+                                </tr>
+                            )
+
+                        })}
                         <tr>
                             <td colSpan="5" className="text-right">Общая стоимость</td>
-                            <td>34 000 руб.</td>
+                            <td>{totalPrice}</td>
                         </tr>
                     </tbody>
                 </table>
