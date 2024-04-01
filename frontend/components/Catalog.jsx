@@ -13,23 +13,32 @@
         const [items, setItems] = useState([]);
         const [offset, setOffset] = useState(6);
         const [btnAdd, setBtnAdd] = useState(false);
-        const [searchData, setSearchData] = useState('');
         const search = useSelector(state => state.searchValue.value);
         const dispatch = useDispatch();
+        const categoryActive = useSelector(state => state.category.value);
+
 
         React.useEffect(() => {
-            fetch(url)
+            let link = url 
+            if(categoryActive) {
+                link = `${link}?categoryId=${categoryActive}`
+            }
+            console.log(link)
+            fetch(link)
                 .then((res) => res.json())
                 .then((json) => setItems(json))
-        }, []);
+        }, [categoryActive]);
 
         const clickHandlerOffset = (event) => {
             const query = new URLSearchParams(); //Изучить
             query.append('offset', offset)
-            if (searchData.trim().length > 0) {
-                query.append('q', searchData)
+            if(categoryActive) {
+                query.append('categoryId', categoryActive)
             }
-            else {
+            if (search.trim().length > 0) {
+                query.append('q', search)
+            }
+
                 fetch(`http://localhost:8080/api/items?${query}`)
                     .then((res) => res.json())
                     .then((products) => {
@@ -40,7 +49,6 @@
                         setOffset((prev) => prev + 6);
                         setItems((prev) => [...prev, ...products]);
                     }).catch((err) => console.log(err))
-            }
         }
 
         const submitHandler = (event) => {

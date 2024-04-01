@@ -7,6 +7,7 @@ import ItemId from '../components/ItemId.jsx'
 import Header from '../components/Header.jsx'
 import Footer from '../components/Footer.jsx'
 import Cart from '../components/Cart.jsx'
+import UndefinedPage404 from '../components/UndefinedPage404.jsx'
 
 import '../css/style.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -35,6 +36,7 @@ export default function Index() {
                 <Route path="/items/:id" element={<ItemId />} />
                 <Route path="/items/:categoryId" element={<Catalog showForm={isCatalogFormVisible} />} />
                 <Route path="/cart" element={<Cart />} />
+                <Route path="*" element={<UndefinedPage404 />} />
               </Routes>
 
             </div>
